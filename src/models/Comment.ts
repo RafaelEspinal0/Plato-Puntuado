@@ -7,7 +7,8 @@ const commentSchema = new Schema({
 
     restaurant: { type: ObjectId, ref: 'Restaurant' },
     from: { type: ObjectId, ref:'User'},
-    content: {type: String}
+    content: {type: String},
+    rating: {type: Number}
 },{
     timestamps:true
 });

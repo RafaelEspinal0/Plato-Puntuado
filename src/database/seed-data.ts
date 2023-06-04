@@ -1,12 +1,13 @@
-import { IRestaurant } from "@/interfaces";
+import { IRestaurant, IUser } from "@/interfaces";
 
 interface SeedData {
     restaurants: IRestaurant[],
-    
+    users: IUser[]
 }
 
 
 export const initialData: SeedData = {
+
     restaurants: [
         {
             name: 'Maraca',
@@ -56,6 +57,27 @@ export const initialData: SeedData = {
             description: 'Un restaurante con tematica japones y con diseño elegante para compartir.',
             categories:['Sushi', 'Fish and seafood ', 'Caribbean']
         },
-
+    ],
+    users:[
+        {
+            name: 'Rafael Espinal',
+            username: 'respinal',
+            password: '12345678',
+            role: 'Admin'
+        },
+        {
+            name: 'Cliente 1',
+            username: 'cliente1',
+            password: '12345678',
+            role: 'Client'
+        },
+        {
+            name: 'Cliente 2',
+            username: 'cliente2',
+            password: '12345678',
+            role: 'Client'
+        },
     ]
+    
+    
 }
