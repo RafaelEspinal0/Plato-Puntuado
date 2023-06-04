@@ -10,7 +10,14 @@ const restaurantSchema = new Schema({
     categories:[{
         type:String,
         enum:{
-            values: ['American', 'Hamburgers', 'Italian', 'Ice cream', 'Chicken', 'Mexican food', 'Drinks', 'Vegan Food', 'Salads', 'Fish and seafood ', 'Sushi'],
+            values: 
+            [
+                'Steaks', 'Caribbean' ,'American',
+                'Hamburgers', 'Italian', 'Ice cream', 
+                'Chicken', 'Mexican food', 'Drinks', 
+                'Vegan Food', 'Salads', 'Fish and seafood ',
+                'Sushi'
+            ],
             message: "{VALUES} no es una categoria valida"
         }
     }],
