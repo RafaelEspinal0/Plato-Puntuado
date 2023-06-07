@@ -12,6 +12,7 @@ export const ReviewLayout: FC<Props> = ({ title, children }) => {
     <>
       <Head>
         <title>{title}</title>
+        <link rel="icon" type="image/x-icon" href="/darktheme.png"></link>
       </Head>
       <nav>
         {/* TODO: Navbar */}

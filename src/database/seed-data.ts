@@ -11,7 +11,7 @@ export const initialData: SeedData = {
     restaurants: [
         {
             name: 'Maraca',
-            images: ['maraca.jpeg'],
+            images: ['maraca.jpeg', 'maraca-2.jpeg'],
             description: 'Un restaurante con comida caribeña.',
             categories:['Caribbean']
         },
@@ -57,6 +57,12 @@ export const initialData: SeedData = {
             description: 'Un restaurante con tematica japones y con diseño elegante para compartir.',
             categories:['Sushi', 'Fish and seafood ', 'Caribbean']
         },
+        {
+            name: 'prueba',
+            images:[],
+            description: 'Sin foto',
+            categories:['American']
+        }
     ],
     users:[
         {
