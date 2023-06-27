@@ -1,5 +1,5 @@
 import { IRestaurant } from '@/interfaces'
-import { Box, Card, CardActionArea, CardMedia, Grid, Typography } from '@mui/material'
+import { Box, Card, CardActionArea, CardMedia, Grid, Link, Typography } from '@mui/material'
 import React, { FC, useMemo, useState } from 'react'
 import NextLink from 'next/link'
 
@@ -39,15 +39,19 @@ export const RestaurantCard:FC<Props> = ({restaurant}) => {
           onMouseLeave={ () => setIsHovered(false) }
     >
         <Card>
-          <CardActionArea>
-              <CardMedia 
-                  component='img'
-                  className='fadeIn'
-                  image={restaurantImage}
-                  alt={restaurant.name}
-                  sx={{objectFit:'cover', height:'250px', width:'100%'}}
-              />
-          </CardActionArea>
+          <NextLink href="/restaurant/slug" passHref prefetch={false}>
+           
+              <CardActionArea>
+                  <CardMedia 
+                      component='img'
+                      className='fadeIn'
+                      image={restaurantImage}
+                      alt={restaurant.name}
+                      sx={{objectFit:'cover', height:'250px', width:'100%'}}
+                  />
+              </CardActionArea>
+  
+          </NextLink>
         </Card>
 
         <Box sx={{mt:1}} className='fadeIn'>

@@ -43,9 +43,7 @@ export const lightTheme = createTheme({
                 },
                 body2:{
                     color:'black',
-                    ":hover":{
-                        color: '#F97F29'
-                    }
+                    
                 },
                 subtitle1: {
                     fontSize: 18,
