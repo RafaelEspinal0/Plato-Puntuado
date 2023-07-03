@@ -1,7 +1,6 @@
 import { ReviewLayout } from "@/components/layouts";
 import { RestaurantList } from "@/components/restaurants";
 import { FullScreenLoading } from "@/components/ui";
-import { initialData } from "@/database/seed-data";
 import { useRestaurants } from "@/hooks";
 import { Typography } from "@mui/material";
 import { NextPage } from "next";

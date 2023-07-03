@@ -3,8 +3,6 @@ import React, { useState } from 'react'
 import { Avatar, Box, Button, Collapse, Grid, Paper, Rating, TextField, Typography } from '@mui/material';
 import { ExpandLess, ExpandMore } from '@mui/icons-material';
 import { RestaurantSlideShow } from '@/components/restaurants';
-import { useRouter } from 'next/router';
-import { useRestaurants } from '@/hooks';
 import { IRestaurant } from '@/interfaces';
 import { NextPage } from 'next';
 import { GetServerSideProps } from 'next'

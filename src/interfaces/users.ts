@@ -1,7 +1,7 @@
 
 export interface IUser{
 
-    _id: string;
+    _id: string | null;
     name:  string,
     username: string,
     password?: string,
