@@ -26,7 +26,7 @@ export const RestaurantSlideShow:FC<Props> = ({images}) => {
                         }}>
 
                         </div>
-
+                    
                     </div>
                 )
             })

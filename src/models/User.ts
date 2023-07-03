@@ -11,7 +11,9 @@ const userSchema = new Schema({
         type:String,
         enum:{
             values: ['Admin', 'Client', 'Restaurant'],
-            message: "{VALUES} no es un role valido"
+            message: "{VALUES} no es un role valido",
+            default: 'client',
+            requerid: true
         }
     },
 },{

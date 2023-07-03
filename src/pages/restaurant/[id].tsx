@@ -1,17 +1,26 @@
 import { ReviewLayout } from '@/components/layouts'
-import { initialData } from '@/database/seed-data'
-import AcUnitIcon from '@mui/icons-material/AcUnit';
 import React, { useState } from 'react'
-import { Avatar, Box, Button, Collapse, Grid, Hidden, Paper, Rating, Tab, TextField, Typography } from '@mui/material';
+import { Avatar, Box, Button, Collapse, Grid, Paper, Rating, TextField, Typography } from '@mui/material';
 import { ExpandLess, ExpandMore } from '@mui/icons-material';
-import { RestaurantComment, RestaurantSlideShow } from '@/components/restaurants';
+import { RestaurantSlideShow } from '@/components/restaurants';
+import { useRouter } from 'next/router';
+import { useRestaurants } from '@/hooks';
+import { IRestaurant } from '@/interfaces';
+import { NextPage } from 'next';
+import { GetServerSideProps } from 'next'
+import { dbRestaurants } from '@/database';
 
+interface Props {
+  restaurant: IRestaurant
+}
 
-const restaurant = initialData.restaurants[0];
+const RestaurantPage:NextPage<Props> = ({restaurant}) => {
 
-const RestaurantPage = () => {
-
-  const [value, setValue] = useState<number |null>(null);
+  // const {query} = useRouter();
+  
+  // const { restaurants: restaurant, isLoading } = useRestaurants(`/restaurants/${query.id}`);
+  
+  const [value, setValue] = useState<number | null>(null);
   const [open, setOpen] = useState(false);
   const [showMore, setShowMore] = useState(false);
 
@@ -100,5 +109,32 @@ const RestaurantPage = () => {
     </ReviewLayout>
   )
 }
+
+//Server side Rendering
+// You should use getServerSideProps when:
+// - Only if you need to pre-render a page whose data must be fetched at request time
+
+export const getServerSideProps: GetServerSideProps = async ({params}) => {
+  
+  const { id = '' } = params as { id: string};
+  const restaurant = await dbRestaurants.getProductById(id);
+
+  if( !restaurant ) {
+    return {
+      redirect:{
+        destination: '/',
+        permanent: false
+      }
+    }
+  }
+
+  return {
+    props: {
+      restaurant
+    }
+  }
+}
+
+
 
 export default RestaurantPage

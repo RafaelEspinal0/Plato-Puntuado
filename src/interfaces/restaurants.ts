@@ -1,6 +1,7 @@
 
 export interface IRestaurant{
 
+    _id: string
     name: string,
     images: string[],
     description: string,

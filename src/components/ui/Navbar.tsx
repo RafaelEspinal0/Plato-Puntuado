@@ -1,28 +1,51 @@
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import {
   AppBar,
   Box,
   IconButton,
   Link,
   Toolbar,
-  Button,
-  Badge,
 } from "@mui/material";
 import NextLink from "next/link";
-import { SearchOutlined, Logout } from "@mui/icons-material";
+import { Logout } from "@mui/icons-material";
 import MenuIcon from "@mui/icons-material/Menu";
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { UIContext } from "@/context";
+import { useRouter } from "next/router";
 
 export const Navbar = () => {
+  const [isBack, setIsBack] = useState(false);
   const { openSideMenu } = useContext(UIContext);
+  const route = useRouter()
+  
 
-  // const onLogout = () => {
-  //   logout();
-  // };
+  useEffect(() => {
+    const home = () => {
+      if(route.asPath === '/'){
+        setIsBack(false)
+      }else{
+        setIsBack(true)
+      }
+    }
+    home();
+  })
 
+  const navigateTo = (url: string) => {
+    route.push(url);
+  };
+  
   return (
     <AppBar>
       <Toolbar>
+        {
+          isBack ? 
+          <IconButton size="large" edge="start"  onClick={() => navigateTo("/")}>
+            <ArrowBackIcon />
+          </IconButton>
+          :
+          null
+          
+        }
         <NextLink href="/" passHref legacyBehavior>
           <Link display="flex" alignItems="center">
             <Box

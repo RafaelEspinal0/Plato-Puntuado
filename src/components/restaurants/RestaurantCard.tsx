@@ -10,7 +10,10 @@ interface Props{
 
 export const RestaurantCard:FC<Props> = ({restaurant}) => {
 
+  
+
   const [isHovered, setIsHovered] = useState(false)
+  const [isImageLoaded, setIsImageLoaded] = useState(false)
 
   const restaurantImage = useMemo(()=> {
 
@@ -39,7 +42,7 @@ export const RestaurantCard:FC<Props> = ({restaurant}) => {
           onMouseLeave={ () => setIsHovered(false) }
     >
         <Card>
-          <NextLink href="/restaurant/slug" passHref prefetch={false}>
+          <NextLink href={`/restaurant/${restaurant._id}`} passHref prefetch={false}>
            
               <CardActionArea>
                   <CardMedia 
@@ -48,13 +51,14 @@ export const RestaurantCard:FC<Props> = ({restaurant}) => {
                       image={restaurantImage}
                       alt={restaurant.name}
                       sx={{objectFit:'cover', height:'250px', width:'100%'}}
+                      onLoad={ () => setIsImageLoaded(true) }
                   />
               </CardActionArea>
   
           </NextLink>
         </Card>
 
-        <Box sx={{mt:1}} className='fadeIn'>
+        <Box sx={{mt:1, display: isImageLoaded ? 'block' : 'none'}} className='fadeIn'>
           <Typography fontWeight={700}>{restaurant.name}</Typography>
         </Box>
 
