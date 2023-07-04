@@ -3,6 +3,7 @@ import { connect } from '../../../database/db';
 import { db } from '@/database';
 import { User } from '@/models';
 import bcrypt from 'bcryptjs';
+import { jwt } from '@/utils';
 
 type Data = 
 | {message: string}
@@ -12,6 +13,7 @@ type Data =
         username: string;
         name: string;
         role: string;
+        _id: string | null;
     }
 }
 
@@ -49,12 +51,15 @@ const loginUser = async(req: NextApiRequest, res: NextApiResponse<Data>) => {
         return res.status(400).json({message: 'Username or password is incorrect.'})
     }
     
-    const {role, name } = user;
+    const {role, name, _id} = user;
 
+    const token = jwt.signToken(_id, username);
+
+    
     return res.status(200).json({
-        token: '',
+        token,
         user: {
-            username, role, name
+            username, role, name, _id
         }
     })
 

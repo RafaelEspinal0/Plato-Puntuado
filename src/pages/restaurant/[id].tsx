@@ -14,10 +14,6 @@ interface Props {
 
 const RestaurantPage:NextPage<Props> = ({restaurant}) => {
 
-  // const {query} = useRouter();
-  
-  // const { restaurants: restaurant, isLoading } = useRestaurants(`/restaurants/${query.id}`);
-  
   const [value, setValue] = useState<number | null>(null);
   const [open, setOpen] = useState(false);
   const [showMore, setShowMore] = useState(false);

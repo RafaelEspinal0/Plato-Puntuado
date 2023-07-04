@@ -1,4 +1,4 @@
-import { FC } from "react"
+import { FC, useEffect, useState } from "react"
 import {Slide} from 'react-slideshow-image'
 import 'react-slideshow-image/dist/styles.css'
 import styles from './RestaurantSlideShow.module.css'
@@ -9,6 +9,20 @@ interface Props{
 
 
 export const RestaurantSlideShow:FC<Props> = ({images}) => {
+    const [isPhoto, setIsPhoto] = useState(false)
+
+    useEffect(() => {
+      const photo = () =>{
+        if (images.length === 0){
+            setIsPhoto(false)
+        }else{
+            setIsPhoto(true)
+        }
+      }
+      photo()
+     
+    })
+
   return (
     <Slide
         easing="ease"
@@ -16,6 +30,7 @@ export const RestaurantSlideShow:FC<Props> = ({images}) => {
         indicators
     >
         {
+            isPhoto ?
             images.map( image => {
                 const url = `/restaurants/${image}`;
                 return(
@@ -30,6 +45,17 @@ export const RestaurantSlideShow:FC<Props> = ({images}) => {
                     </div>
                 )
             })
+            :
+            <div className={styles['each-slide']}>
+                <div style={{
+                    backgroundImage:`url(/lighttheme.png)`,
+                    backgroundSize: 'cover'
+                }}>
+
+                </div>
+                    
+            </div>
+            
         }
     </Slide>
   )
