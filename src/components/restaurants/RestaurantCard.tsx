@@ -18,15 +18,15 @@ export const RestaurantCard:FC<Props> = ({restaurant}) => {
   const restaurantImage = useMemo(()=> {
 
     if(restaurant.images[0]==null){
-      return `lighttheme.png`
+      return `/lighttheme.png`
     }
 
     if(restaurant.images[1]==null){
-      return `restaurants/${restaurant.images[0]}`
+      return `/restaurants/${restaurant.images[0]}`
     }else{
       return isHovered
-      ? `restaurants/${restaurant.images[1]}`
-      : `restaurants/${restaurant.images[0]}`
+      ? `/restaurants/${restaurant.images[1]}`
+      : `/restaurants/${restaurant.images[0]}`
     }
 
   }, [isHovered, restaurant.images])

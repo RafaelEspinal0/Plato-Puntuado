@@ -4,7 +4,10 @@ import { Restaurant } from "@/models";
 import { IRestaurant } from "@/interfaces";
 
 
-export const getProductById = async( id: string) : Promise<IRestaurant | null> => {
+
+
+
+export const getRestaurantById = async( id: string) : Promise<IRestaurant | null> => {
 
     await db.connect();
     
@@ -20,4 +23,30 @@ export const getProductById = async( id: string) : Promise<IRestaurant | null> =
 
     return JSON.parse(JSON.stringify(restaurant))
 
+}
+
+export const getRestaurantByTerm = async (term: string): Promise<IRestaurant[]> => {
+    
+    term = term.toString().toLowerCase();
+    
+    await db.connect()
+    
+    const restaurants = await Restaurant.find({
+        $text: { $search : `/.*${term}.*/i`  }
+    })
+    .select('name images -_id')
+    .lean()
+
+    await db.disconnect()
+
+    return restaurants;
+}
+
+export const getAllRestaurants = async(): Promise<IRestaurant[]> => {
+    
+    await db.connect();
+    const restaurants = await Restaurant.find().lean()
+    await db.disconnect();
+
+    return JSON.parse(JSON.stringify(restaurants))
 }

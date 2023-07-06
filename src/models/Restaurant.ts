@@ -26,6 +26,8 @@ const restaurantSchema = new Schema({
     timestamps:true
 });
 
+restaurantSchema.index({name:'text', description: 'text', categories:'text'})
+
 const Restaurant: Model<IRestaurant> = mongoose.models.Restaurant || model('Restaurant', restaurantSchema);
 
 export default Restaurant;

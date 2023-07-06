@@ -111,7 +111,7 @@ const RestaurantPage:NextPage<Props> = ({restaurant}) => {
 export const getServerSideProps: GetServerSideProps = async ({params}) => {
   
   const { id = '' } = params as { id: string};
-  const restaurant = await dbRestaurants.getProductById(id);
+  const restaurant = await dbRestaurants.getRestaurantById(id);
 
   if( !restaurant ) {
     return {
