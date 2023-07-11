@@ -1,5 +1,5 @@
 
-import { platoApi } from '@/api';
+
 import { AuthLoyout } from '@/components/layouts/AuthLayout';
 import { AuthContext } from '@/context';
 import { Box, Button, Checkbox, Container, FormControlLabel, Grid, Link, TextField, Typography } from '@mui/material';
@@ -32,7 +32,7 @@ const RegisterPage = () => {
         if(hasError){
           throw new Error(message)
         }
-        
+
         const destination = router.query.p?.toString() || '/';
         router.replace(destination)
       }),

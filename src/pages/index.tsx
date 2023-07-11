@@ -11,6 +11,7 @@ const HomePage: NextPage = () => {
 
   const { restaurants, isError, isLoading } = useRestaurants('/restaurants')
 
+
   return (
     <ReviewLayout title="Dashboard restaurantes 👨🏾‍🍳">
       <Typography variant="h1" component='h1'>Restaurantes</Typography>

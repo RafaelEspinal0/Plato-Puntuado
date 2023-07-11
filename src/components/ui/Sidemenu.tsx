@@ -142,7 +142,7 @@ export const Sidemenu = () => {
                       <LocalCafe/>
                   </ListItemIcon>
                   <ListItemText primary={'Restaurantes'} 
-                    onClick={() => navigateTo("/auth/login")}/>
+                    onClick={() => navigateTo("/admin/restaurants")}/>
                 </ListItem>
                 <ListItem button>
                   <ListItemIcon>

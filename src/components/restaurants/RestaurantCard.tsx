@@ -58,10 +58,16 @@ export const RestaurantCard:FC<Props> = ({restaurant}) => {
           </NextLink>
         </Card>
 
-        <Box sx={{mt:1, display: isImageLoaded ? 'block' : 'none'}} className='fadeIn'>
+        <Box sx={{mt:1, display: isImageLoaded ? 'flex' : 'none'}} className='fadeIn'>
           <Typography fontWeight={700}>{restaurant.name}</Typography>
-        </Box>
+          {/* <Grid container justifyContent='flex-end'>
+          <Grid item>
+            <Typography></Typography>
+          </Grid>
+        </Grid> */}
 
+        </Box>
+        
 
     </Grid>
   )

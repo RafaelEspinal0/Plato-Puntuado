@@ -10,12 +10,13 @@ import NextLink from "next/link";
 import { Logout } from "@mui/icons-material";
 import MenuIcon from "@mui/icons-material/Menu";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import { UIContext } from "@/context";
+import { AuthContext, UIContext } from "@/context";
 import { useRouter } from "next/router";
 
 export const Navbar = () => {
   const [isBack, setIsBack] = useState(false);
   const { openSideMenu } = useContext(UIContext);
+  const { isLoggedIn, logout } = useContext(AuthContext);
   const route = useRouter()
   
 
@@ -29,6 +30,11 @@ export const Navbar = () => {
     }
     home();
   })
+
+
+  const onLogout = () => {
+    logout()
+  }
 
   const navigateTo = (url: string) => {
     route.push(url);
@@ -68,9 +74,14 @@ export const Navbar = () => {
             <SearchOutlined/>
           </IconButton> */}
 
-        <IconButton >
-          <Logout />
-        </IconButton>
+        {
+          isLoggedIn ?
+          <IconButton onClick={logout}>
+            <Logout />
+         </IconButton>
+         :''
+        }
+        
 
         <IconButton size="large" edge="start" onClick={openSideMenu}>
           <MenuIcon />
