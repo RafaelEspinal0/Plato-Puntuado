@@ -4,6 +4,7 @@ import { IUser } from '@/interfaces';
 import { platoApi } from '@/api';
 import Cookies from 'js-cookie'
 import axios from 'axios';
+import { useRouter } from 'next/router';
 
 export interface AuthState {
     isLoggedIn: boolean;   
@@ -22,6 +23,7 @@ const Auth_INITIAL_STATE : AuthState = {
 export const AuthProvider: FC<Props> = ({children}) => {
 
    const [state, dispatch] = useReducer(authReducer, Auth_INITIAL_STATE)
+   const router = useRouter();
 
     useEffect(() => {
       checkToken();
@@ -29,6 +31,11 @@ export const AuthProvider: FC<Props> = ({children}) => {
     }, [])
     
     const checkToken = async() => {
+
+        if(!Cookies.get('token')){
+            return;
+        }
+
         try{
             const {data} = await platoApi.get('user/validate-token')
             const {token, user } = data
@@ -38,7 +45,6 @@ export const AuthProvider: FC<Props> = ({children}) => {
             Cookies.remove('token')
         }
     }
-
 
     const loginUser = async (username: string, password:string): Promise<boolean> => {
 
@@ -77,13 +83,19 @@ export const AuthProvider: FC<Props> = ({children}) => {
             }
         }
     }
+
+    const logout = () => {
+        Cookies.remove('token')
+        router.reload()
+    }
     
    return(
        <AuthContext.Provider value={{
            ...state,
 
            loginUser, 
-           registerUser
+           registerUser,
+           logout
        }} >
            {children}
        </AuthContext.Provider>

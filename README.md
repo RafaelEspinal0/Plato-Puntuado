@@ -24,6 +24,18 @@ mongodb://localhost:27017/platodb
 ## Configurar las variables de entorno
 Renombrar el archivo __.env.template__ a __.env__ 
 
+* Reconstruir los modulos de node con yarn y levantar la app
+```
+yarn install
+yarn run dev
+```
+
+* Reconstruir los modulos de node con npm y levantar la app
+```
+npm install
+npm run dev
+```
+
 ## Llenar la base de datos con informaciones de prueba en __/database/seed-data.ts__
 
 Llamara  ☎️:

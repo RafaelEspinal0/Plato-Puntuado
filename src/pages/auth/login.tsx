@@ -28,7 +28,9 @@ const LoginPage = () => {
             throw new Error()
           }
 
-          router.replace('/')
+          const destination = router.query.p?.toString() || '/';
+          router.replace(destination)
+
         }),
         {
           loading: 'Loading...',
@@ -45,6 +47,7 @@ const LoginPage = () => {
           },
         }
       );
+
 
   
 
@@ -121,7 +124,7 @@ const LoginPage = () => {
             </Button>
             <Grid container justifyContent='flex-end'>
               <Grid item>
-                <Link href="/auth/register" variant="body2" sx={{color: '#383838', textDecoration:'none', ":hover":{
+                <Link href={router.query.p ? `/auth/register?p=${router.query.p}`: '/auth/register'} variant="body2" sx={{color: '#383838', textDecoration:'none', ":hover":{
                     color: 'GrayText'
                 }}}>
                   {"Don't have an account? Sign Up"}

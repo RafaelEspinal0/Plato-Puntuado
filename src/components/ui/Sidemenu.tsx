@@ -16,11 +16,13 @@ import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
 import { useContext, useState } from "react";
 import { UIContext } from "@/context/ui";
 import { useRouter } from "next/router";
-import { LoginOutlined, SearchOutlined, VpnKeyOutlined } from "@mui/icons-material";
+import { Favorite, LocalCafe, LoginOutlined, PersonAdd, SearchOutlined, VpnKeyOutlined } from "@mui/icons-material";
+import { AuthContext } from "@/context";
 
 export const Sidemenu = () => {
   const router = useRouter();
   const { sideMenuOpen, closeSideMenu } = useContext(UIContext);
+  const { user, isLoggedIn, logout } = useContext(AuthContext)
 
   const [searchTerm, setSearchTerm] = useState('');
 
@@ -32,6 +34,10 @@ export const Sidemenu = () => {
   const navigateTo = (url: string) => {
     router.push(url);
   };
+
+  const onLogout = () => {
+    logout()
+  }
 
   return (
     <Drawer
@@ -75,34 +81,79 @@ export const Sidemenu = () => {
               />
           </ListItem>
 
-          <ListItem button>
-            <ListItemIcon>
-              <HomeRoundedIcon />
-            </ListItemIcon>
-            <ListItemText primary={"Dashboard"}
-              onClick={() => navigateTo("/")}
-            />
-          </ListItem>
+          {
+            isLoggedIn && (
+              <>
+                <ListItem button>
+                  <ListItemIcon>
+                    <HomeRoundedIcon />
+                  </ListItemIcon>
+                  <ListItemText primary={"Dashboard"}
+                    onClick={() => navigateTo("/")}
+                  />
+                </ListItem>
+                <ListItem button>
+                  <ListItemIcon>
+                    <Favorite />
+                  </ListItemIcon>
+                  <ListItemText primary={"My Favorites"}
+                    onClick={() => navigateTo("/")}
+                  />
+                </ListItem>
 
-          <ListItem button>
-            <ListItemIcon>
-                <VpnKeyOutlined/>
-            </ListItemIcon>
-            <ListItemText primary={'Sign in'} 
-              onClick={() => navigateTo("/auth/login")}/>
-          </ListItem>
+                
+              </>
+            )
+          }
 
-          <ListItem button>
-            <ListItemIcon>
-                <LoginOutlined/>
-            </ListItemIcon>
-            <ListItemText primary={'Log out'} />
-          </ListItem>
+          {
+            isLoggedIn 
+            ?(
+            
+              <ListItem button onClick={logout}>
+                <ListItemIcon>
+                    <LoginOutlined/>
+                </ListItemIcon>
+                <ListItemText primary={'Log out'} />
+              </ListItem>
+              
+            )
+            :
+            (
+              <ListItem button>
+                <ListItemIcon>
+                    <VpnKeyOutlined/>
+                </ListItemIcon>
+                <ListItemText primary={'Sign in'} 
+                  onClick={() => navigateTo(`/auth/login?p=${router.asPath}`)}/>
+              </ListItem>
+            )
+          }
 
-          <Divider/>
-          
-          <ListSubheader>Admin Panel</ListSubheader>
+          {
+            user?.role === 'Admin' && (
+              <>
+                <Divider/>
+            
+                <ListSubheader>Admin Panel</ListSubheader>
 
+                <ListItem button>
+                  <ListItemIcon>
+                      <LocalCafe/>
+                  </ListItemIcon>
+                  <ListItemText primary={'Restaurantes'} 
+                    onClick={() => navigateTo("/auth/login")}/>
+                </ListItem>
+                <ListItem button>
+                  <ListItemIcon>
+                      <PersonAdd/>
+                  </ListItemIcon>
+                  <ListItemText primary={'Users'} 
+                    onClick={() => navigateTo("/auth/login")}/>
+                </ListItem>   
+              </>
+            )
+          }
            
         </List>
       </Box>
