@@ -42,7 +42,7 @@ const registerUser = async(req: NextApiRequest, res: NextApiResponse<Data>) => {
 
     if( password.length < 6 ) {
         return res.status(400).json({
-            message: 'Password must contain at least 6 characters'
+            message: 'Password must contain at least 8 characters'
         })
     }
     
