@@ -48,6 +48,7 @@ export const RestaurantCard:FC<Props> = ({restaurant}) => {
                   <CardMedia 
                       component='img'
                       className='fadeIn'
+                      key={restaurant.name}
                       image={restaurantImage}
                       alt={restaurant.name}
                       sx={{objectFit:'cover', height:'250px', width:'100%'}}

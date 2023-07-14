@@ -1,7 +1,7 @@
 import { ReviewLayout } from '@/components/layouts'
 import React, { useContext, useState } from 'react'
-import { Avatar, Box, Button, Collapse, Grid, Paper, Rating, TextField, Typography } from '@mui/material';
-import { ExpandLess, ExpandMore } from '@mui/icons-material';
+import { Avatar, Box, Button, Collapse, Grid, Link, Paper, Rating, TextField, Typography } from '@mui/material';
+import { ExpandLess, ExpandMore, Star } from '@mui/icons-material';
 import { RestaurantComment, RestaurantSlideShow } from '@/components/restaurants';
 import { IComment, IRestaurant } from '@/interfaces';
 import { NextPage } from 'next';
@@ -32,7 +32,7 @@ type FormData = {
 const RestaurantPage:NextPage<Props> = ({restaurant, comment}) => {
   
   const {register, handleSubmit, formState: {errors}} = useForm<FormData>();
-  const {user} = useContext(AuthContext)
+  const {user, isLoggedIn} = useContext(AuthContext)
   const router = useRouter();
   const [value, setValue] = useState<number | null>(null);
   const [open, setOpen] = useState(false);
@@ -95,9 +95,9 @@ const RestaurantPage:NextPage<Props> = ({restaurant, comment}) => {
 
           {/* Rating */}
           <Box sx={{my:2}}>
-            <Typography variant='subtitle2'>Rating</Typography>
+            <Typography variant='h2'>Rating</Typography>
             {/* Promedio Rating */}
-            <Typography>{comment.ratingRestaurant.toFixed(2)}</Typography>
+            <Typography sx={{display:"flex", alignItems:'center'}}>{ comment.ratingRestaurant.toFixed(2)} <Star fontSize='small' style={{color: "orange"}}/></Typography>
           </Box>
 
           <Box component="form" noValidate onSubmit={handleSubmit(commentsAdd)} sx={{ mt: 1 }} display='flex' flexDirection='column'>
@@ -119,17 +119,26 @@ const RestaurantPage:NextPage<Props> = ({restaurant, comment}) => {
               error={!!errors.content}
               helperText={errors.content?.message}
             />
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2, bgcolor: 'black', color: 'white', ":hover": {
-                bgcolor: '#383838',
-                color: 'white'
-              }}}
-            >
-              Enviar
-            </Button>
+            {
+              isLoggedIn 
+              ? 
+                <Button
+                  type="submit"
+                  fullWidth
+                  variant="contained"
+                  sx={{ mt: 3, mb: 2, bgcolor: 'black', color: 'white', ":hover": {
+                    bgcolor: '#383838',
+                    color: 'white'
+                  }}}
+                >
+                  Enviar
+                </Button>
+              : 
+                <Typography variant='h2' sx={{ mt: 3, mb: 2}}>
+                  You must be logged in to be able to comment <Link href={`auth/login?p=`}>Sign up</Link>
+                </Typography> 
+            }
+            
 
 
 

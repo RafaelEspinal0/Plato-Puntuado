@@ -153,7 +153,7 @@ const RegisterPage = () => {
             </Button>
             <Grid container justifyContent="flex-end">
               <Grid item>
-                <Link href={router.query.p ? `/auth/login?p=${router.query.p}`: 'auth/login'} variant="body2" sx={{color: '#383838', textDecoration:'none', ":hover":{
+                <Link href={router.query.p ? `/auth/login?p=${router.query.p}`: '/auth/login'} variant="body2" sx={{color: '#383838', textDecoration:'none', ":hover":{
                       color: 'GrayText'
                   }}}>
                     Already have an account? Sign in
