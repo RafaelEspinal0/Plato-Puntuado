@@ -20,7 +20,29 @@ export const getCommentByRestaurants = async( id: string) : Promise<Data | null>
 
     if (!isValidObjectId(id)) return null;
     
-    const comments = await Comment.find({restaurant: id}).lean();
+    const comments = await Comment.find({restaurant: id}).sort({createdAt:-1}).lean();
+    const rating = comments.map(x => x.rating)
+
+    const commentsWithUser = await Promise.all(comments.map(async (comment) =>{
+        const user = await User.findById(comment.from).lean().exec()
+       
+        
+        return { ...comment, nameUser: user?.name}
+    }))
+    await db.disconnect()
+
+    return JSON.parse(JSON.stringify({commentsWithUser ,  ratingRestaurant: avg(rating)}))
+
+}
+
+
+export const getCommentByUser = async( id: string) : Promise<Data | null> => {
+
+    await db.connect()
+
+    if (!isValidObjectId(id)) return null;
+    
+    const comments = await Comment.find({from: id}).sort({createdAt:-1}).lean();
     const rating = comments.map(x => x.rating)
 
     const commentsWithUser = await Promise.all(comments.map(async (comment) =>{

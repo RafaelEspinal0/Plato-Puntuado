@@ -3,6 +3,7 @@ import { IComment, IRestaurant } from '@/interfaces'
 import { Comment, Restaurant, User } from '@/models'
 import { isValidObjectId } from 'mongoose';
 import type { NextApiRequest, NextApiResponse } from 'next'
+import { json } from 'stream/consumers';
 
 type Data = 
     | {message: string}
@@ -56,7 +57,7 @@ const getCommentByRestaurant =  async (req: NextApiRequest, res: NextApiResponse
     await db.disconnect()
 
     if( !comments){
-        res.status(404).json({message:'Este restaurante aun no ha sido calificado'})
+        res.status(404).json({message:'This restaurant has not yet been rated.'})
     }
 
     res.status(200).json({commentsWithUser ,  ratingRestaurant: avg(rating)});
@@ -73,7 +74,7 @@ const addCommentsByRestaruant =  async (req: NextApiRequest, res: NextApiRespons
 
     await db.connect();
     const comment = await Comment.create({restaurant, from, content, rating});
-    
+
     await db.disconnect();
     
     return res.status(200).json({

@@ -1,16 +1,16 @@
 import { ReviewLayout } from '@/components/layouts'
 import React, { useContext, useState } from 'react'
-import { Avatar, Box, Button, Collapse, Grid, Link, Paper, Rating, TextField, Typography } from '@mui/material';
+import { Box, Button, Collapse, FormControl, Grid, InputLabel, Link, MenuItem, Rating, Select, TextField, Typography } from '@mui/material';
 import { ExpandLess, ExpandMore, Star } from '@mui/icons-material';
 import { RestaurantComment, RestaurantSlideShow } from '@/components/restaurants';
-import { IComment, IRestaurant } from '@/interfaces';
+import { IRestaurant } from '@/interfaces';
 import { NextPage } from 'next';
 import { GetServerSideProps } from 'next'
 import { dbComments, dbRestaurants } from '@/database';
 import { useForm } from 'react-hook-form';
 import { platoApi } from '@/api';
 import { useRouter } from 'next/router';
-import toast from 'react-hot-toast';
+import toast, { Toaster } from 'react-hot-toast';
 import { AuthContext } from '@/context';
 
 interface Props {
@@ -31,13 +31,18 @@ type FormData = {
 
 const RestaurantPage:NextPage<Props> = ({restaurant, comment}) => {
   
-  const {register, handleSubmit, formState: {errors}} = useForm<FormData>();
+  const {register, reset, handleSubmit, formState: {errors}} = useForm<FormData>();
   const {user, isLoggedIn} = useContext(AuthContext)
   const router = useRouter();
   const [value, setValue] = useState<number | null>(null);
   const [open, setOpen] = useState(false);
   const [showMore, setShowMore] = useState(false);
+  const [filterComment, setFilterComment] = useState('');
 
+  const refreshData = () => {
+    router.replace(router.asPath);
+  }
+  
   const handleClick = () => {
     setOpen(!open);
     setShowMore(!showMore)
@@ -51,12 +56,14 @@ const RestaurantPage:NextPage<Props> = ({restaurant, comment}) => {
     toast.promise(
       platoApi.post(`/restaurants/comments/${restaurant}`, {restaurant, content, rating, from})
       .then((data) => {
-        router.reload()
+        refreshData()
+        reset()
+        setValue(null)
       }),
       {
         loading: 'Loading...',
         success: `Thank you for sharing your review! ⭐️`,
-        error: `Uh oh, there was an error in the credentials! 🤮`,
+        error: `At least give us a star 🤗`,
       },
       {
         style: {
@@ -74,6 +81,7 @@ const RestaurantPage:NextPage<Props> = ({restaurant, comment}) => {
 
 
     <ReviewLayout title={restaurant.name}>
+      <Toaster/>
       <Grid sx={{mt:4}} container spacing={2}>
 
         <Grid item xs={12} sm={7} padding='0 10px 10px 10px'>
@@ -88,7 +96,7 @@ const RestaurantPage:NextPage<Props> = ({restaurant, comment}) => {
        
         </Grid>
 
-        <Grid item xs={12} sm={5} padding='0 10px 10px 10px' sx={{height:'75vh', overflow:'scroll'}} >
+        <Grid item xs={12} sm={5} padding='0 10px 10px 10px' sx={{height:'90vh', overflow:'scroll'}} >
 
           {/* Titulos */}
           <Typography variant='h1' component='h1'>{restaurant.name}</Typography>
@@ -97,16 +105,18 @@ const RestaurantPage:NextPage<Props> = ({restaurant, comment}) => {
           <Box sx={{my:2}}>
             <Typography variant='h2'>Rating</Typography>
             {/* Promedio Rating */}
-            <Typography sx={{display:"flex", alignItems:'center'}}>{ comment.ratingRestaurant.toFixed(2)} <Star fontSize='small' style={{color: "orange"}}/></Typography>
+            <Typography sx={{ display:"flex", alignItems:'center' }}>{ comment.ratingRestaurant !=null ? comment.ratingRestaurant.toFixed(2): '0.00'} <Star fontSize='small' style={{color: "orange", marginLeft:'10px'}}/></Typography>
           </Box>
 
           <Box component="form" noValidate onSubmit={handleSubmit(commentsAdd)} sx={{ mt: 1 }} display='flex' flexDirection='column'>
             <Rating
               name="rating"
               value={value}
+              size='large'
               onChange={(event, newValue) => {
                 setValue(newValue);
               }}
+              
             />
             <TextField
               sx={{ mt:3 }}
@@ -131,20 +141,46 @@ const RestaurantPage:NextPage<Props> = ({restaurant, comment}) => {
                     color: 'white'
                   }}}
                 >
-                  Enviar
+                  Send
                 </Button>
               : 
                 <Typography variant='h2' sx={{ mt: 3, mb: 2}}>
-                  You must be logged in to be able to comment <Link href={`auth/login?p=`}>Sign up</Link>
+                  You must be logged in to be able to comment. <Link variant='h2' underline="hover" href={`/auth/register?p=${router.asPath}`}>Sign up</Link>
                 </Typography> 
             }
             
 
 
 
-          <Collapse in={open} >
-            <RestaurantComment commentsWithUser={comment.commentsWithUser}/>
-          </Collapse> 
+            <Collapse in={open} >
+              {
+                isLoggedIn ? 
+                <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+                  <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
+                    <InputLabel id="filter-content">Filter by:</InputLabel>
+                    <Select
+                      labelId="filter-content"
+                      id="filter-content-select"
+                      value={filterComment}
+                      onChange={(e) => {
+                        setFilterComment(e.target.value);
+                      }}
+                      label="Age"
+                    >
+                      <MenuItem value={1}>Show all</MenuItem>
+                      <MenuItem value={2}>Just me</MenuItem>
+                    </Select>
+                  </FormControl>
+                </Box>:''
+              }
+              <RestaurantComment commentsWithUser=
+              {
+                filterComment == '2' 
+                ? comment.commentsWithUser.filter(comments=>comments.from === user?._id)
+                : comment.commentsWithUser 
+                 
+              }/>
+            </Collapse> 
 
             <Button sx={{mt:2}} className='showMore' onClick={handleClick}>
               {showMore ?  <ExpandLess/> : <ExpandMore/>}

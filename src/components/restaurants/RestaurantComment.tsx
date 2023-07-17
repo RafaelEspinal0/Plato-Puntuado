@@ -1,6 +1,6 @@
 
 import { dateFunctions } from '@/utils';
-import {  Avatar, Grid, Paper } from '@mui/material'
+import {  Avatar, Grid, Paper, Typography } from '@mui/material'
 import React, { FC } from 'react'
 import {v4} from 'uuid'
 
@@ -12,10 +12,13 @@ interface Props {
 
 export const RestaurantComment:FC<Props> = ({commentsWithUser}) => {
 
+ 
   
   return (
     <>
       {
+        commentsWithUser.length != 0 
+        ?
         commentsWithUser.map( comment => {
           return(
             <React.Fragment key={v4()}>
@@ -39,6 +42,9 @@ export const RestaurantComment:FC<Props> = ({commentsWithUser}) => {
           )
           
         })
+        :
+        <Typography sx={{mt:5}} display='flex' justifyContent='center' variant='body2'>No reviews have been made at this restaurant.</Typography>
+        
       }
     </>
   )
