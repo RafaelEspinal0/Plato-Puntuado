@@ -21,7 +21,8 @@ export default function handler(req: NextApiRequest, res: NextApiResponse<Data>)
             return getCommentByRestaurant(req, res)
         case 'POST':
             return addCommentsByRestaruant(req, res)
-
+        case 'DELETE':
+            return deleteCommentsByRestaruant(req, res)
         default:
             res.status(400).json({ message: 'Bad request' })
             
@@ -81,3 +82,18 @@ const addCommentsByRestaruant =  async (req: NextApiRequest, res: NextApiRespons
         comment
     })
 }
+
+const deleteCommentsByRestaruant =  async (req: NextApiRequest, res: NextApiResponse<Data>) => {
+    
+    const { id } = req.query
+    await db.connect();
+    const comment = await Comment.findByIdAndDelete(id);
+
+    await db.disconnect();
+    
+    return res.status(200).json({
+        comment,
+        message:"Comment deleted successfully."
+    })
+}
+

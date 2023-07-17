@@ -12,6 +12,7 @@ import { platoApi } from '@/api';
 import { useRouter } from 'next/router';
 import toast, { Toaster } from 'react-hot-toast';
 import { AuthContext } from '@/context';
+import styles from './id.module.css'
 
 interface Props {
   restaurant: IRestaurant
@@ -96,7 +97,7 @@ const RestaurantPage:NextPage<Props> = ({restaurant, comment}) => {
        
         </Grid>
 
-        <Grid item xs={12} sm={5} padding='0 10px 10px 10px' sx={{height:'90vh', overflow:'scroll'}} >
+        <Grid className={styles['scrollbar-hidden']} item xs={12} sm={5} padding='0 10px 10px 10px' sx={{height:'90vh'}} >
 
           {/* Titulos */}
           <Typography variant='h1' component='h1'>{restaurant.name}</Typography>
