@@ -13,17 +13,30 @@ const columns:GridColDef[] = [
         field: 'images', 
         headerName: 'images',
         renderCell: ({ row } ) => {
+            console.log(row.images)
             return (
-                <a href={ `/restaurants/${ row.id }` } target="_blank" rel="noreferrer">
-                    <CardMedia 
-                        component='img'
-                        alt={ row.name }
-                        className='fadeIn'
-                        image={ `/restaurants/${row.images}` }
-                    />
+                <a href={ `/admin/restaurants/${ row.id }` } target="_blank" rel="noreferrer">
+                    {
+                        row.images != undefined ? 
+                        <CardMedia 
+                            component='img'
+                            alt={ row.name }
+                            className='fadeIn'  
+                            image={ `/restaurants/${row.images}` }
+                        />
+                        :
+                        <CardMedia 
+                            component='img'
+                            alt={ row.name }
+                            className='fadeIn'  
+                            image={ `/lighttheme.png` }
+                        />
+                    }
+                   
                 </a>
             )
         }
+       
     },
     { 
         field: 'name', 
@@ -65,6 +78,7 @@ const RestaurantPage = () => {
 
   return (
     <AdminLayout 
+        titleHead='Admin: Restaurant'
         title={`Restaurants (${ data?.length })`} 
         icon={ <Restaurant /> }
     >

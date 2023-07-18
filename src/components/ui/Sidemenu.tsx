@@ -16,7 +16,7 @@ import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
 import { useContext, useState } from "react";
 import { UIContext } from "@/context/ui";
 import { useRouter } from "next/router";
-import { Favorite, LocalCafe, LoginOutlined, PersonAdd, SearchOutlined, VpnKeyOutlined } from "@mui/icons-material";
+import { Dashboard, Favorite, LocalCafe, LoginOutlined, PersonAdd, SearchOutlined, VpnKeyOutlined } from "@mui/icons-material";
 import { AuthContext } from "@/context";
 
 export const Sidemenu = () => {
@@ -108,9 +108,8 @@ export const Sidemenu = () => {
 
           {
             isLoggedIn 
-            ?(
-            
-              <ListItem button onClick={logout}>
+            ?(      
+              <ListItem onClick={logout}>
                 <ListItemIcon>
                     <LoginOutlined/>
                 </ListItemIcon>
@@ -136,7 +135,13 @@ export const Sidemenu = () => {
                 <Divider/>
             
                 <ListSubheader>Admin Panel</ListSubheader>
-
+                <ListItem button>
+                  <ListItemIcon>
+                      <Dashboard/>
+                  </ListItemIcon>
+                  <ListItemText primary={'Dashboard'} 
+                    onClick={() => navigateTo("/admin/")}/>
+                </ListItem>
                 <ListItem button>
                   <ListItemIcon>
                       <LocalCafe/>

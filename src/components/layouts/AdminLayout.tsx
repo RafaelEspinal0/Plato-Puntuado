@@ -3,18 +3,23 @@ import { Box, Typography } from '@mui/material';
 import { Navbar } from '../ui';
 
 import { Sidemenu } from '../ui';
+import Head from 'next/head';
 
 
 interface Props {
+    titleHead:string;
     title: string;
     children: any;
     icon?: JSX.Element;
 }
 
-export const AdminLayout:FC<Props> = ({ children, title, icon }) => {
+export const AdminLayout:FC<Props> = ({ children, title, icon, titleHead }) => {
   return (
     <>
-
+        <Head>
+            <title>{titleHead}</title>
+            <link rel="icon" type="image/x-icon" href="/darktheme.png"></link>
+        </Head>
 
         <nav>
             <Navbar />
